@@ -1,7 +1,7 @@
 === Plugin Name ===
 Contributors: EugeneBos
 Tags: popup, jumpout
-Requires at least: 3.0.1
+Requires at least: 2.5.0
 Tested up to: 4.0
 Stable tag: 0.5
 License: GPLv2 or later
@@ -9,10 +9,13 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 == Description ==
 
-This is plugin that simplifying installation of JumpOut popups on your website. Plugin only for customers of JumpOut product.
+Данный плагин позволяет покупателям [Jumpout](http://makedreamprofits.ru/pp/) ставить попапы на Вордпресс в 1 клик.
+
+**This is plugin that simplifying installation of JumpOut popups on your website. Plugin only for customers of JumpOut product, plugin supports only russian for now**
 
 == Installation ==
 
+После установки плагина вы сможете найти его в пункте "Настройки". После этого просто следуйте инструкциям, которые он вам дает. Но, если что, [ссылка на техподдержку](http://makedreamprofits.ru/support/) 
 
 == Frequently Asked Questions ==
 
