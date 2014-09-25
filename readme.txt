@@ -32,7 +32,3 @@ No, only who bought JumpOut popups.
 
 = 0.5 =
 * First test version of a plugin.
-
-
-
-`<?php code(); // goes in backticks ?>`
