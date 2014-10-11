@@ -25,7 +25,9 @@
 				    </path>
 				  </svg>
 
-				<span>Синхронизировать</span></a>
+				<span>Синхронизировать</span>
+			</a>
+			<a href="?page=jumpout&action=magic_begins" class="add-new-h2" style="margin-left: 10px">Скрипт MagicBegins</a>
 		</h2>
 	</div>
 

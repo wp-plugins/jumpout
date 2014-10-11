@@ -41,6 +41,11 @@ class JumpOut
             'list' => array(),
             'activated' => array(),
             'first_not_empty_import' => NULL, // чтобы дать инструкцию о том, как установить скрипт на сайт
+            'magic_begins' => array(
+                'enabled' => FALSE,
+                'autofill' => TRUE,
+                'async' => TRUE,
+            ),
         );
     }
 
@@ -182,6 +187,29 @@ class JumpOut
 
             }
         }
+
+
+        if (isset($settings['magic_begins']) && isset($settings['magic_begins']['enabled']) && TRUE === $settings['magic_begins']['enabled'])
+        {
+            $code = '';
+            if (isset($settings['magic_begins']['autofill']) && TRUE === $settings['magic_begins']['autofill']) {
+                $code .= '<script>';
+            } else {
+                $code .= '<script>var wmb_autofill = false;';
+            }
+
+            if (isset($settings['magic_begins']['async']) && TRUE === $settings['magic_begins']['async']) {
+                $code .= '(function(i, s, o, g, a, m) {a = s.createElement(o),m = s.getElementsByTagName(o)[0];a.async = 1;a.src = g;m.parentNode.insertBefore(a, m)})(window, document, \'script\', \'http://files.makedreamprofits.ru/js/wmb.js\');</script>';
+             
+            } else {
+                $code .= '</script><script src="http://files.makedreamprofits.ru/js/wmb.js" type="text/javascript" charset="utf-8"></script>';
+            }
+
+            // убираем лишний код
+            $code = str_replace('<script></script>', '', $code);
+
+            echo $code; //stripslashes($settings['magic_begins_code']);
+        }
     }
 
 
@@ -190,6 +218,20 @@ class JumpOut
             if("email"===decodeURIComponent(tokens[1]))m=decodeURIComponent(tokens[2]);s.src="http://popupfiles.makedreamprofits.ru/' . $uid . '-user.js";if("[object Opera]"===w.opera)d.addEventListener("DomContentLoaded",f,false);else f();})(document,window);</script><!--Конец кода "JumpOut" (id:' . $id . ')-->';
 
         return $code;
+    }
+
+
+
+    // Редактирует код MagicBegins
+    function editMagicBeginsCode($data) {
+
+        $this->settings['magic_begins'] = array(
+            'enabled' => (isset($data['enabled'])) ? TRUE : FALSE,
+            'autofill' => (isset($data['autofill'])) ? TRUE : FALSE,
+            'async' => (isset($data['async'])) ? TRUE : FALSE,
+        );
+
+        $this->saveSettings();
     }
 
 
@@ -403,15 +445,14 @@ class JumpOut
                 $this->pageRender('', 'session_token_error', $settings);
             break;
 
-            case 'google_analytics':
+            case 'magic_begins':
                 if (isset($_POST['data'])) {
-                    $this->editGoogleAnalyticsCode($_POST['data']);
+                    $this->editMagicBeginsCode($_POST['data']);
 
                     $this->redirect('list');
                 }
 
-                $data = (isset($settings['google_analytics_code'])) ? $settings['google_analytics_code'] : '';
-                $this->pageRender('Код Google Analytics', 'google_analytics', $data);
+                $this->pageRender('Код Magic Begins', 'magic_begins', $settings);
             break;
 
     	}

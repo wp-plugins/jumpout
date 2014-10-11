@@ -3,7 +3,7 @@ Contributors: EugeneBos
 Tags: popup, jumpout
 Requires at least: 2.5.0
 Tested up to: 4.0
-Stable tag: 0.5
+Stable tag: 3.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -19,6 +19,11 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 == Frequently Asked Questions ==
 
+
+= Все ли люди смогут пользоваться этим плагином?
+
+Нет, только те, кто уже купили JumpOut.
+
 = All people can use it, isn't it?
 
 No, only who bought JumpOut popups.
@@ -30,5 +35,7 @@ No, only who bought JumpOut popups.
 
 == Changelog ==
 
-= 0.5 =
-* First test version of a plugin.
+= 3.0.0 =
+* Третье поколение плагина готово
+= 3.0.1 =
+* Добавлена поддержка скрипта MagicBegins
