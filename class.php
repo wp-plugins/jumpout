@@ -123,7 +123,8 @@ class JumpOut
 
         $result = json_decode($result);
 
-        if (defined('JSON_ERROR_NONE') || json_last_error() == JSON_ERROR_NONE) {
+        if (is_array($result) || (function_exists('json_last_error') && defined('JSON_ERROR_NONE') && json_last_error() == JSON_ERROR_NONE)) { // 3.0.2 even in 5.2 it can be no json_last_error function
+        //if (defined('JSON_ERROR_NONE') || json_last_error() == JSON_ERROR_NONE) {
 
             if ('error' == $result->status) {
 
