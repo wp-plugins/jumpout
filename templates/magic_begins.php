@@ -12,25 +12,28 @@
 
 <form action="?page=jumpout&action=magic_begins&noheader=true" method="POST" class="">
     <p>
-        Описание этого скрипта, вы можете найти по
+        <?php _e('Описание этого скрипта, вы можете найти по
         <a href="http://jumpout.makedreamprofits.ru/bonuses/" target="_blank">этой ссылке</a>.
-        После включения, плагин автоматически вставит его на все страницы вашего сайта.
+        После включения, плагин автоматически вставит его на все страницы вашего сайта.', 'jumpout') ?>
     </p>
 
     <p>
         <label>
-            <input type="checkbox" name="data[enabled]" <?php echo (isset($data['magic_begins']) && isset($data['magic_begins']['enabled']) && TRUE === $data['magic_begins']['enabled']) ? 'checked="checked"' : ''?> /> Включить скрипт
+            <input type="checkbox" name="data[enabled]" <?php echo (isset($data['magic_begins']) && isset($data['magic_begins']['enabled']) && TRUE === $data['magic_begins']['enabled']) ? 'checked="checked"' : ''?> /> 
+            <?php _e('Включить скрипт', 'jumpout') ?>
         </label>
     </p>
     <span id="autofill" style="display: none;">
         <p>
             <label>
-                <input type="checkbox" name="data[autofill]" <?php echo (isset($data['magic_begins']) && isset($data['magic_begins']['autofill']) && TRUE === $data['magic_begins']['autofill']) ? 'checked="checked"' : ''?> /> Включить автозаполнение форм подписки, когда есть данные подписчика
+                <input type="checkbox" name="data[autofill]" <?php echo (isset($data['magic_begins']) && isset($data['magic_begins']['autofill']) && TRUE === $data['magic_begins']['autofill']) ? 'checked="checked"' : ''?> /> 
+                <?php _e('Включить автозаполнение форм подписки, когда есть данные подписчика', 'jumpout') ?>
             </label>
         </p>
         <p>
             <label>
-                <input type="checkbox" name="data[async]" <?php echo (isset($data['magic_begins']) && isset($data['magic_begins']['autofill']) && TRUE === $data['magic_begins']['async']) ? 'checked="checked"' : ''?> /> Асинхронная загрузка (не задерживает загрузку вашего сайта, рекомендуется)
+                <input type="checkbox" name="data[async]" <?php echo (isset($data['magic_begins']) && isset($data['magic_begins']['autofill']) && TRUE === $data['magic_begins']['async']) ? 'checked="checked"' : ''?> /> 
+                <?php _e('Асинхронная загрузка (не задерживает загрузку вашего сайта, рекомендуется)', 'jumpout') ?>
             </label>
         </p>
     </span>
@@ -40,7 +43,7 @@
     <small>будет вставлен между тегами &lt;head&gt; и &lt;/head&gt; на всех страницах</small>
 -->
 
-    <input class="button-primary" type="submit" name="item_add" value="Сохранить" style="margin: 5px 0 5px 8px;" />
+    <input class="button-primary" type="submit" name="item_add" value="<?php _e('Сохранить', 'jumpout') ?>" style="margin: 5px 0 5px 8px;" />
 
 
 

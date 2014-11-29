@@ -2,14 +2,14 @@
 	<div class="top_plugin_menu">
 		<div style="float: right; margin-top: 15px;">
 			<?php //=$this->settings['session_token']?>
-			<a href="http://makedreamprofits.ru/support/" target="_blank" class="">Техподдержка</a>
+			<a href="http://makedreamprofits.ru/support/" target="_blank" class=""><?php _e('Техподдержка', 'jumpout') ?></a>
 		</div>
 
 		<h2>
 			<?php if ('list' != @$_GET['action']) :?><a href="?page=jumpout"><?php endif ?>JumpOut<?php if ('list' != @$_GET['action']) :?></a><?php endif ?>
 
 			<?php echo ('' !== trim($caption)) ? ' — ' . $caption : ''; ?> 
-			<a href="http://jumpout.makedreamprofits.ru/#add_new" target="_blank" class="add-new-h2">Новый попап</a>
+			<a href="http://jumpout.makedreamprofits.ru/#add_new" target="_blank" class="add-new-h2"><?php _e('Новый попап', 'jumpout') ?></a>
 			<a href="?page=jumpout&action=sync" class="sync add-new-h2">
 				<!-- 3  -->
 				  <svg style="margin-bottom: -4px" version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -25,9 +25,9 @@
 				    </path>
 				  </svg>
 
-				<span>Синхронизировать</span>
+				<span><?php _e('Синхронизировать', 'jumpout') ?></span>
 			</a>
-			<a href="?page=jumpout&action=magic_begins" class="add-new-h2" style="margin-left: 10px">Скрипт MagicBegins</a>
+			<a href="?page=jumpout&action=magic_begins" class="add-new-h2" style="margin-left: 10px"><?php _e('Скрипт MagicBegins', 'jumpout') ?></a>
 		</h2>
 	</div>
 

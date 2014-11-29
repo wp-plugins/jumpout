@@ -1,10 +1,10 @@
 <?php if (TRUE === $data['first_not_empty_import']): ?>
     <div class="updated">
         <p>
-            Отлично! Теперь, чтобы установить попап на сайт, просто нажмите "Активировать" под его названием.
+            <?php _e('Отлично! Теперь, чтобы установить попап на сайт, просто нажмите "Активировать" под его названием.', 'jumpout') ?>
         </p>
         <p>
-            Чтобы обновить список попапов, нажмите кнопку "Синхронизировать" сверху.
+            <?php _e('Чтобы обновить список попапов, нажмите кнопку "Синхронизировать" сверху.', 'jumpout') ?>
         </p>
     </div>
 <? endif ?>
@@ -24,10 +24,10 @@
         </th>-->
         <th style="width: 1px;"></th>
         <th>
-            Название
+            <?php _e('Название', 'jumpout') ?>
         </th>
         <th>
-            Работать на страницах
+            <?php _e('Работать на страницах', 'jumpout') ?>
         </th>
     </tr>
     </thead>
@@ -49,18 +49,24 @@
                 <strong><?php echo $item['name']; ?></strong>
                 <div style="min-height: 22px;"><!-- class="row-actions" -->
                     <?php if (TRUE === in_array($item['id'], $data['activated'])):?>
-                        <span class="deactivate"><a title="Убрать элемент с сайта" href="?page=jumpout&action=deactivate&id=<?php echo $item['id']; ?>">Деактивировать</a> |</span>
+                        <span class="deactivate"><a title="<?php _e('Убрать элемент с сайта', 'jumpout')?>" href="?page=jumpout&action=deactivate&id=<?php echo $item['id']; ?>">
+                            <?php _e('Деактивировать', 'jumpout') ?>
+                        </a> |</span>
                     <?php else:?>
-                        <span class="activate"><a title="Установить на сайт элемент" href="?page=jumpout&action=activate&id=<?php echo $item['id']; ?>">Активировать</a> |</span>
+                        <span class="activate"><a title="<?php _e('Установить на сайт элемент', 'jumpout')?>" href="?page=jumpout&action=activate&id=<?php echo $item['id']; ?>">
+                            <?php _e('Активировать', 'jumpout') ?>
+                        </a> |</span>
                     <?php endif?>
 
-                    <span class="edit"><a href="http://jumpout.makedreamprofits.ru/edit/<?php echo $item['id']; ?>" title="Редактировать этот элемент" target="_blank">Изменить</a></span>
+                    <span class="edit"><a href="http://jumpout.makedreamprofits.ru/edit/<?php echo $item['id']; ?>" title="<?php _e('Редактировать этот элемент', 'jumpout') ?>" target="_blank">
+                        <?php _e('Изменить', 'jumpout') ?>
+                    </a></span>
                     <!--<span class="trash"><a class="submitdelete" title="Удалить элемент" href="http://jumpout.makedreamprofits.ru/delete/<?php echo $item['id']; ?>" target="_blank">Удалить</a></span>-->
 
                 </div>
             </td>
             <td>
-                <?php echo ('' != trim($item['work_on_page'])) ? $item['work_on_page'] : 'всех'; ?>
+                <?php echo ('' != trim($item['work_on_page'])) ? $item['work_on_page'] : _e('всех', 'jumpout'); ?>
             </td>
         </tr>
         <?php endforeach; ?>
@@ -73,14 +79,16 @@
 
         <style>.top_plugin_menu { display: none; }</style>
 
-        <h1>Добро пожаловать в плагин JumpOut'а!</h1>
+        <h1><?php _e('Добро пожаловать в плагин JumpOut\'а!', 'jumpout') ?></h1>
 
         <div class="about-text">
-            Первое, что нам нужно сделать - разрешить доступ плагину к вашему аккаунту с попапами.
-            Чтобы это сделать, просто нажмите на кнопку ниже:
+            <?php _e('Первое, что нам нужно сделать - разрешить доступ плагину к вашему аккаунту с попапами.
+            Чтобы это сделать, просто нажмите на кнопку ниже:', 'jumpout') ?>
             <br /><br />
 
-            <a class="button button-primary button-hero load-customize" href="http://jumpout.makedreamprofits.ru/api/allow_access/?back_url=http://<?=$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']?>">Начать использование!</a>
+            <a class="button button-primary button-hero load-customize" href="http://jumpout.makedreamprofits.ru/api/allow_access/?back_url=http://<?=$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']?>">
+                <?php _e('Начать использование!', 'jumpout') ?>
+            </a>
         </div>
 
     </div>
@@ -90,14 +98,16 @@
     <div class="wrap about-wrap">
 
         <div class="about-text">
-            Судя по всему, вы еще не создавали попапов. Что ж, пришло время это сделать! 
-            Нажмите на кнопку "Новый попап" сверху или под этими строками:
+            <?php _e('Судя по всему, вы еще не создавали попапов. Что ж, пришло время это сделать! 
+            Нажмите на кнопку "Новый попап" сверху или под этими строками:', 'jumpout') ?>
             <br /><br />
 
-            <a class="button button-primary button-hero load-customize" href="http://jumpout.makedreamprofits.ru/#add_new" target="_blank">Создать первый попап!</a>
+            <a class="button button-primary button-hero load-customize" href="http://jumpout.makedreamprofits.ru/#add_new" target="_blank">
+                <?php _e('Создать первый попап!', 'jumpout') ?>
+            </a>
 
             <br /><br />
-            После того, как добавите, нажмите на кнопку сверху "Синхронизировать".
+            <?php _e('После того, как добавите, нажмите на кнопку сверху "Синхронизировать"', 'jumpout') ?>.
 
         </div>
 

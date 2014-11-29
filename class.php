@@ -87,7 +87,13 @@ class JumpOut
 
         //wp_register_script('jumpout-main', plugins_url('js/main.js', __FILE__ ), 'jquery');
         wp_enqueue_script('jumpout-main', (function_exists('plugins_url')) ? plugins_url('js/main.js', __FILE__) : '/wp-content/plugins/jumpout/js/main.js', 'jquery');
-
+        
+        wp_localize_script('jumpout-main', 'jumpout_text', array(
+            'sync_in_progress' => __('Подождите, идет синхронизация', 'jumpout'),
+            'sync_finished' => __('Готово! Перезагрузка страницы', 'jumpout'),
+            'sync_wrong_request' => __('Похоже при синхронизации плагин отправил неверный запрос. Попробуйте обновить плагин или напишите в техподдержку.', 'jumpout'),
+            'sync_error' => __('Ошибка! Попробуйте еще раз или обратитесь в техподдержку!', 'jumpout'),
+        ));
     }
 
     // Добавляет в админ меню наш плагин
@@ -413,7 +419,7 @@ class JumpOut
     		case 'list':
 
                 // активные попапы отображаем выше всех
-                if (0 != count($settings['activated'])) {
+                if (isset($settings['activated']) && 0 != count($settings['activated'])) {
                     $list = array();
                     rsort($settings['activated']);
 
@@ -431,6 +437,8 @@ class JumpOut
                     }
 
                     $settings['list'] = array_merge($list, $settings['list']);
+                } else {
+                    $settings['activated'] = array();
                 }
 
     		    $this->pageRender('', 'list', $settings);
