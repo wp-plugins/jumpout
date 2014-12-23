@@ -182,7 +182,7 @@ class JumpOut
         if (isset($settings['list']) && 0 != count($settings['list'])) {
             foreach ($settings['list'] as $key => $item) if (in_array($item['id'], $settings['activated'])) {
                 
-                if ('' == trim($comebacker['work_on_page'])) {
+                if ('' == trim($item['work_on_page'])) {
 
                     echo $this->generateCode($item['id'], $item['uid']);
 
