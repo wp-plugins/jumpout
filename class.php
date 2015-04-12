@@ -393,7 +393,7 @@ class JumpOut
 
             case 'activate':
                 if (isset($_GET['id'])) {
-                    $this->settings['activated'][] = (int)$_GET['id'];
+                    $this->settings['activated'][] = (is_numeric($_GET['id'])) ? (int)$_GET['id'] : $_GET['id'];
                     array_unique($this->settings['activated']);
                     $this->saveSettings();
                 }
