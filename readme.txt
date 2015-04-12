@@ -11,7 +11,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Данный плагин позволяет покупателям [Jumpout](http://makedreamprofits.ru/pp/) ставить попапы на Вордпресс в 1 клик.
 
-**This is plugin that simplifying installation of JumpOut popups on your website. Plugin only for customers of JumpOut product**
+**The plugin is simplifying installation of JumpOut popups on your website. The plugin is only for the customers of JumpOut product**
 
 == Installation ==
 
@@ -37,6 +37,7 @@ No, only who bought JumpOut popups.
 
 = 3.0.4 =
 * “Работать на конкретной странице” в настройках попапы не работало, исправлено.
+* Поддержка групп попапов.
 = 3.0.3 =
 * Добавлена английская локализация, исправлен баг при удалении
 = 3.0.2 =
