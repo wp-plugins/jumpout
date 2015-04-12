@@ -33,7 +33,7 @@ class JumpOut
     private 
         $settings, $settings_default, 
         $api_url = 'http://jumpout.makedreamprofits.ru/api/', 
-        $version = '3.0.4', 
+        $version = '3.0.5', 
         $popupfiles_domain = 'popupfiles.makedreamprofits.ru';
 
     function JumpOut()

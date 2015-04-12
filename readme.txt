@@ -3,7 +3,7 @@ Contributors: EugeneBos
 Tags: popup, jumpout
 Requires at least: 2.5.0
 Tested up to: 4.1
-Stable tag: 3.0.4
+Stable tag: 3.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -35,9 +35,10 @@ No, only who bought JumpOut popups.
 
 == Changelog ==
 
+= 3.0.5 =
+* Поддержка групп попапов.
 = 3.0.4 =
 * “Работать на конкретной странице” в настройках попапы не работало, исправлено.
-* Поддержка групп попапов.
 = 3.0.3 =
 * Добавлена английская локализация, исправлен баг при удалении
 = 3.0.2 =
