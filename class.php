@@ -30,10 +30,20 @@ function jumpout_run($content) {
 
 class JumpOut
 {
-    private $settings, $settings_default;
+    private 
+        $settings, $settings_default, 
+        $api_url = 'http://jumpout.makedreamprofits.ru/api/', 
+        $version = '3.0.4', 
+        $popupfiles_domain = 'popupfiles.makedreamprofits.ru';
 
     function JumpOut()
     {
+        // for the localhost
+        if (FALSE !== strpos($_SERVER['SERVER_NAME'], 'makedreamprofits.my')) {
+            $this->api_url = 'http://service-jumpout.my/api/';
+            $this->popupfiles_domain = 'popupfiles.my';
+        }
+
         $this->loadSettings();
         $this->settings_default = array(
             'session_token' => NULL,
@@ -52,20 +62,7 @@ class JumpOut
     // Загружает настройки
     function loadSettings()
     {
-        $settings = (array)get_option('jumpout_settings');
-
-        // если был установлен старый плагин
-        if (isset($settings['header_code']) || isset($settings['footer_code'])) {
-            $settings = $this->renewSettings($settings);
-        }
-
-        // если настройки не заданы - заменяем их на дефолтные  
-        if (0 == count($settings)) {
-        	$settings = $this->settings_default;
-        }
-
-        $this->settings = $settings;
-
+        $this->settings = (array)get_option('jumpout_settings', $this->settings_default);
         return TRUE;
     }
 
@@ -124,8 +121,7 @@ class JumpOut
 
     private function syncScripts() {
 
-        $version = 'XXX';
-        $result = file_get_contents('http://jumpout.makedreamprofits.ru/api/get_popups/?v=' . $version . '&cms=wordpress&session_token=' . urlencode($this->settings['session_token']) . '&site=' . $_SERVER['HTTP_HOST']);
+        $result = file_get_contents($this->api_url . 'get_popups/?v=' . $this->version . '&cms=wordpress&session_token=' . urlencode($this->settings['session_token']) . '&site=' . $_SERVER['HTTP_HOST']);
 
         $result = json_decode($result);
 
@@ -139,9 +135,38 @@ class JumpOut
             } else {
 
                 $this->settings['list'] = array();
-                if (0 != count($result)) {
-                    foreach ($result as $row) {
-                        $this->settings['list'][] = (array)$row;
+                $groups = array();
+
+                if (0 != count($result->popups)) {
+                    foreach ($result->popups as $row) {
+
+                        if (NULL === $row->group_id) {
+                            $this->settings['list'][] = (array)$row;
+                        } else {
+                            // collecting all popups with groups in separate array
+                            if (!isset($groups[$row->group_id])) {
+                                $groups[$row->group_id] = array(
+                                    'id' => 'group-' . $row->group_id,
+                                    'popups' => array(),
+                                    'work_on_page' => '',
+                                );
+                            }
+                            $groups[$row->group_id]['popups'][] = (array)$row;
+                        }
+                    }
+
+                    // adding name & type to the group var
+                    foreach ($result->groups as $group) {
+                        if (isset($groups[$group->id])) {
+                            $groups[$group->id]['uid'] = $group->uid;
+                            $groups[$group->id]['name'] = $group->name;
+                            $groups[$group->id]['type'] = $group->type;
+                        }
+                    }
+
+                    // adding all popups in group var in popups array
+                    foreach ($groups as $group) {
+                        array_unshift($this->settings['list'], $group);
                     }
 
                     if (NULL === $this->settings['first_not_empty_import']) {
@@ -160,7 +185,7 @@ class JumpOut
 
 
     function receiveSessionToken($access_token) {
-        $session_token = file_get_contents('http://jumpout.makedreamprofits.ru/api/get_session_token/?access_token=' . (string)$access_token);
+        $session_token = file_get_contents($this->api_url . 'get_session_token/?access_token=' . (string)$access_token);
 
         return $session_token;
     }
@@ -221,8 +246,12 @@ class JumpOut
 
 
     private function generateCode($id, $uid) {
+
+        $js_file = (FALSE === strpos($id, 'group-')) ? 'user' : 'group';
+        //$id = str_replace('group-', '', $id);
+
         $code = '<!--Начало кода "JumpOut" (id:' . $id . ')--><script type="text/javascript">(function(d,w){n=d.getElementsByTagName("script")[0],s=d.createElement("script"),f=function(){n.parentNode.insertBefore(s,n);};s.type="text/javascript";s.async=true;qs=document.location.search.split("+").join(" ");re=/[?&]?([^=]+)=([^&]*)/g;while(tokens=re.exec(qs))
-            if("email"===decodeURIComponent(tokens[1]))m=decodeURIComponent(tokens[2]);s.src="http://popupfiles.makedreamprofits.ru/' . $uid . '-user.js";if("[object Opera]"===w.opera)d.addEventListener("DomContentLoaded",f,false);else f();})(document,window);</script><!--Конец кода "JumpOut" (id:' . $id . ')-->';
+            if("email"===decodeURIComponent(tokens[1]))m=decodeURIComponent(tokens[2]);s.src="http://' . $this->popupfiles_domain . '/' . $uid . '-' . $js_file . '.js";if("[object Opera]"===w.opera)d.addEventListener("DomContentLoaded",f,false);else f();})(document,window);</script><!--Конец кода "JumpOut" (id:' . $id . ')-->';
 
         return $code;
     }
@@ -473,40 +502,6 @@ class JumpOut
 
         $page_file = JUMPOUT_TEMPLATE_PATH . $file_name . '.php';
     	include JUMPOUT_TEMPLATE_PATH . 'main_teamplate.php';
-    }
-
-
-
-
-    // делает из старой версии настроек новую и сохраняет в бд
-    function renewSettings($settings_old) {
-
-        if ('' != trim($settings_old['header_code'])) {
-            $settings_new['google_analytics_code'] = $settings_old['header_code'];
-        }
-
-        if ('' != trim($settings_old['footer_code'])) {
-
-            // пытаемся вытащить id из кода
-            $start = mb_strpos($settings_old['footer_code'], '(id:', 0, 'utf-8');
-
-            if (FALSE !== $start) {
-                // вытаскиваем из кода ID
-                $id = mb_substr($settings_old['footer_code'], $start + 4, mb_strpos($settings_old['footer_code'], ')', $start, 'utf-8') - $start - 4, 'utf-8');
-
-            }
-
-            $settings_new['list'] = array(
-                'id' => (isset($id)) ? $id : '',
-                'code' => stripslashes($settings_old['footer_code']),
-            );
-        } else {
-            $settings_new['list'] = array();
-        }
-
-        $this->saveSettings($settings_new);
-
-        return $settings_new;
     }
 
 

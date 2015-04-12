@@ -3,12 +3,12 @@
 Plugin Name: JumpOut
 Plugin URI: http://makedreamprofits.ru/jo/
 Description: Устанавливайте JumpOut попапы в один клик с нашим плагином для Вордпресс!
-Version: 3.0.3
+Version: 3.0.4
 Author: MakeDreamProfits
 Author URI: http://makedreamprofits.ru
 */
 
-/*  Copyright 2012-2014  MakeDreamProfits, Евгений Бос  (email : eugene@makedreamprofits.ru) */
+/*  Copyright 2012-2015  MakeDreamProfits, Евгений Бос  (email : eugene@makedreamprofits.ru) */
 
 
 // Не пускаем левых

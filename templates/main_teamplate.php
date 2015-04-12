@@ -63,4 +63,10 @@ svg path,
 svg rect{
   fill: #ffffff;
 }
+
+strong span.group-type {
+	font-size: 10px;
+	font-weight: 300;
+	margin-left: 5px;
+}
 </style>

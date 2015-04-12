@@ -46,7 +46,29 @@
                 <?php echo $item['id']; ?>
             </td>-->
             <td class="post-title page-title column-title">
-                <strong><?php echo $item['name']; ?></strong>
+                <strong>
+                    <?php echo $item['name']; ?>
+
+
+                    <?php if (isset($item['popups'])): ?>
+                        <span class="group-type">
+                            (<?php echo ('split-test' == $item['type']) ? 'сплит-тест' : 'серия попапов' ?>)
+                        </span>
+                    <?php endif ?>
+                </strong>
+
+                <?php if (isset($item['popups'])): ?>
+                    <div style="margin-bottom: 7px">
+                        Попапы:
+                        <?php foreach ($item['popups'] as $key => $popup): ?>
+
+                            <?php echo ((0 == $key) ? '' : ', ') . $popup['name']; ?>
+
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif ?>
+
+
                 <div style="min-height: 22px;"><!-- class="row-actions" -->
                     <?php if (TRUE === in_array($item['id'], $data['activated'])):?>
                         <span class="deactivate"><a title="<?php _e('Убрать элемент с сайта', 'jumpout')?>" href="?page=jumpout&action=deactivate&id=<?php echo $item['id']; ?>">
