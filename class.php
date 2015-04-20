@@ -33,7 +33,7 @@ class JumpOut
     private 
         $settings, $settings_default, 
         $api_url = 'http://jumpout.makedreamprofits.ru/api/', 
-        $version = '3.0.5', 
+        $version = '3.0.6', 
         $popupfiles_domain = 'popupfiles.makedreamprofits.ru';
 
     function JumpOut()
@@ -44,7 +44,6 @@ class JumpOut
             $this->popupfiles_domain = 'popupfiles.my';
         }
 
-        $this->loadSettings();
         $this->settings_default = array(
             'session_token' => NULL,
             'token_is_working' => FALSE,
@@ -56,24 +55,32 @@ class JumpOut
                 'autofill' => TRUE,
                 'async' => TRUE,
             ),
+            'last_sync' => time(),
         );
+
+        $this->loadSettings();
+
+        // if last sync was more than 2 days ago, auto syncing
+        if (time() - 60 * 60 * 24 > $this->settings['last_sync'] && NULL !== $this->settings['session_token']) {
+            $this->syncScripts();
+        }
     }
 
     // Загружает настройки
-    function loadSettings()
+    private function loadSettings()
     {
         $this->settings = (array)get_option('jumpout_settings', $this->settings_default);
         return TRUE;
     }
 
     // Возвращает настройки
-    function getSettings()
+    private function getSettings()
     {
         return $this->settings;
     }
 
     // Сохраняет настройки
-    function saveSettings()
+    private function saveSettings()
     {
 	    update_option('jumpout_settings', $this->settings);
     }
@@ -148,7 +155,7 @@ class JumpOut
                                 $groups[$row->group_id] = array(
                                     'id' => 'group-' . $row->group_id,
                                     'popups' => array(),
-                                    'work_on_page' => '',
+                                    'work_on_page' => array(),
                                 );
                             }
                             $groups[$row->group_id]['popups'][] = (array)$row;
@@ -156,16 +163,20 @@ class JumpOut
                     }
 
                     // adding name & type to the group var
-                    foreach ($result->groups as $group) {
-                        if (isset($groups[$group->id])) {
-                            $groups[$group->id]['uid'] = $group->uid;
-                            $groups[$group->id]['name'] = $group->name;
-                            $groups[$group->id]['type'] = $group->type;
-                        }
+                    foreach ($result->groups as $group) if (isset($groups[$group->id])) {
+                        $groups[$group->id]['uid'] = $group->uid;
+                        $groups[$group->id]['name'] = $group->name;
+                        $groups[$group->id]['type'] = $group->type;
                     }
 
                     // adding all popups in group var in popups array
                     foreach ($groups as $group) {
+                        // collecting work_on_page from every popup in the group
+                        foreach ($group['popups'] as $popup) {print_r($group['popups']);
+                            $group['work_on_page'][] = trim($popup['work_on_page']);
+                        }
+                        $group['work_on_page'] = array_unique($group['work_on_page']);
+
                         array_unshift($this->settings['list'], $group);
                     }
 
@@ -174,6 +185,7 @@ class JumpOut
                     }
                 }
 
+                $this->settings['last_sync'] = time();
                 $this->saveSettings();
 
                 return TRUE;
@@ -184,7 +196,7 @@ class JumpOut
     }
 
 
-    function receiveSessionToken($access_token) {
+    private function receiveSessionToken($access_token) {
         $session_token = file_get_contents($this->api_url . 'get_session_token/?access_token=' . (string)$access_token);
 
         return $session_token;
@@ -207,16 +219,25 @@ class JumpOut
         if (isset($settings['list']) && 0 != count($settings['list'])) {
             foreach ($settings['list'] as $key => $item) if (in_array($item['id'], $settings['activated'])) {
                 
-                if ('' == trim($item['work_on_page'])) {
+                $display_code = FALSE;
 
-                    echo $this->generateCode($item['id'], $item['uid']);
-
-                } elseif (0 === strpos($REQUEST_URI, $item['work_on_page'])) {
-
-                    echo $this->generateCode($item['id'], $item['uid']);
-
+                if (!is_array($item['work_on_page'])) {
+                    $item['work_on_page'] = array($item['work_on_page']);
                 }
 
+                // если есть хотя бы один "работать на всех страницах"
+                if (array_search('', $item['work_on_page']))
+                    $display_code = TRUE;
+
+                foreach ($item['work_on_page'] as $work_on_page) if (FALSE === $display_code) {
+                    if ('' == trim($work_on_page) || 0 === strpos($REQUEST_URI, $work_on_page)) {
+                        $display_code = TRUE;
+                    }
+                }
+
+                if ($display_code) {
+                    echo $this->generateCode($item['id'], $item['uid']);
+                }
             }
         }
 

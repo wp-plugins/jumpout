@@ -88,7 +88,16 @@
                 </div>
             </td>
             <td>
-                <?php echo ('' != trim($item['work_on_page'])) ? $item['work_on_page'] : _e('всех', 'jumpout'); ?>
+                <?php 
+                    if (is_array($item['work_on_page'])) {
+                        foreach ($item['work_on_page'] as $key => $value)
+                            if ('' == trim($value)) $item['work_on_page'][$key] = __('всех', 'jumpout');
+                        rsort($item['work_on_page']);
+                        echo implode(', ', $item['work_on_page']);
+                    } else {
+                        echo ('' != trim($item['work_on_page'])) ? $item['work_on_page'] : __('всех', 'jumpout');
+                    }
+                ?>
             </td>
         </tr>
         <?php endforeach; ?>
