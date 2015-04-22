@@ -33,7 +33,7 @@ class JumpOut
     private 
         $settings, $settings_default, 
         $api_url = 'http://jumpout.makedreamprofits.ru/api/', 
-        $version = '3.0.6', 
+        $version = '3.0.7', 
         $popupfiles_domain = 'popupfiles.makedreamprofits.ru';
 
     function JumpOut()
@@ -226,7 +226,7 @@ class JumpOut
                 }
 
                 // если есть хотя бы один "работать на всех страницах"
-                if (array_search('', $item['work_on_page']))
+                if (FALSE !== array_search('', $item['work_on_page']))
                     $display_code = TRUE;
 
                 foreach ($item['work_on_page'] as $work_on_page) if (FALSE === $display_code) {

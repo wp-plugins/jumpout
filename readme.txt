@@ -3,7 +3,7 @@ Contributors: EugeneBos
 Tags: popup, jumpout
 Requires at least: 2.5.0
 Tested up to: 4.1
-Stable tag: 3.0.6
+Stable tag: 3.0.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -35,6 +35,8 @@ No, only who bought JumpOut popups.
 
 == Changelog ==
 
+= 3.0.7 =
+* Исправлен баг, когда, если у первого попапа в группе было задано “работать на всех страницах”, то группа не вставлялась на сайт
 = 3.0.6 =
 * Правильное отображение “Работать на страницах” для групп, авто синхронизация если ее не было дальше чем 1 день, некоторые доработки и исправления багов
 = 3.0.5 =
