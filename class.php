@@ -280,7 +280,7 @@ class JumpOut
 
 
     // Редактирует код MagicBegins
-    function editMagicBeginsCode($data) {
+    function editMiniPersonalizatorCode($data) {
 
         $this->settings['magic_begins'] = array(
             'enabled' => (isset($data['enabled'])) ? TRUE : FALSE,
@@ -504,14 +504,14 @@ class JumpOut
                 $this->pageRender('', 'session_token_error', $settings);
             break;
 
-            case 'magic_begins':
+            case 'mini_personalizator':
                 if (isset($_POST['data'])) {
-                    $this->editMagicBeginsCode($_POST['data']);
+                    $this->editMiniPersonalizatorCode($_POST['data']);
 
                     $this->redirect('list');
                 }
 
-                $this->pageRender('Код Magic Begins', 'magic_begins', $settings);
+                $this->pageRender('МиниПерсонализатор', 'mini_personalizator', $settings);
             break;
 
     	}

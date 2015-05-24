@@ -27,7 +27,7 @@
 
 				<span><?php _e('Синхронизировать', 'jumpout') ?></span>
 			</a>
-			<a href="?page=jumpout&action=magic_begins" class="add-new-h2" style="margin-left: 10px"><?php _e('Скрипт MagicBegins', 'jumpout') ?></a>
+			<a href="?page=jumpout&action=mini_personalizator" class="add-new-h2" style="margin-left: 10px"><?php _e('Скрипт МиниПерсонализатор', 'jumpout') ?></a>
 		</h2>
 	</div>
 
