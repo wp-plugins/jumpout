@@ -3,7 +3,7 @@ Contributors: EugeneBos
 Tags: popup, jumpout
 Requires at least: 2.5.0
 Tested up to: 4.2
-Stable tag: 3.0.7
+Stable tag: 3.0.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -35,6 +35,9 @@ No, only who bought JumpOut popups.
 
 == Changelog ==
 
+= 3.0.8 =
+* Если ваша тема не поддерживает вставку кода между <head>, то плагин попробует вставить код другим способом
+* Если конфигурация PHP не позволяет загружать страницы сайтов через file_get_contents, плагин автоматически переключится на cURL
 = 3.0.7 =
 * Исправлен баг, когда, если у первого попапа в группе было задано “работать на всех страницах”, то группа не вставлялась на сайт
 = 3.0.6 =

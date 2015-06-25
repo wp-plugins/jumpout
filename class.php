@@ -33,7 +33,7 @@ class JumpOut
     private 
         $settings, $settings_default, 
         $api_url = 'http://jumpout.makedreamprofits.ru/api/', 
-        $version = '3.0.7', 
+        $version = '3.0.8', 
         $popupfiles_domain = 'popupfiles.makedreamprofits.ru';
 
     function JumpOut()
@@ -128,7 +128,7 @@ class JumpOut
 
     private function syncScripts() {
 
-        $result = file_get_contents($this->api_url . 'get_popups/?v=' . $this->version . '&cms=wordpress&session_token=' . urlencode($this->settings['session_token']) . '&site=' . $_SERVER['HTTP_HOST']);
+        $result = $this->loadWebContent($this->api_url . 'get_popups/?v=' . $this->version . '&cms=wordpress&session_token=' . urlencode($this->settings['session_token']) . '&site=' . $_SERVER['HTTP_HOST']);
 
         $result = json_decode($result);
 
@@ -197,14 +197,46 @@ class JumpOut
 
 
     private function receiveSessionToken($access_token) {
-        $session_token = file_get_contents($this->api_url . 'get_session_token/?access_token=' . (string)$access_token);
+        $session_token = $this->loadWebContent($this->api_url . 'get_session_token/?access_token=' . (string)$access_token);
 
         return $session_token;
     }
 
 
-    
+    public function frontendStart() {
+        ob_start('jumpout_run');
+    }
+
+    public function frontendEnd() {
+        @ob_end_flush(); // 2.0.4
+    }
+
+    // if inserting code thru header is not working, trying to replace content of the page
+    public function frontendRun($content) {
+
+        if (FALSE === strpos($content, '<!-- jo inserted -->')) {
+            $code = $this->getCodeToPaste();
+
+            if (FALSE !== strpos($content, '</head>')) {
+                // добавляем код в шапку
+                $content = str_replace('</head>', $code . '</head>', $content);
+            } else {
+                // ну а если шапки нет - в тело
+                $content = str_replace('<body>', '<body>' . $code, $content);
+            }
+        }
+
+        return str_replace('<!-- jo inserted -->', '', $content);
+    }
+
     public function frontendHeader() {
+        echo '<!-- jo inserted -->' . $this->getCodeToPaste(); // DO NOT change <!-- jo inserted --> or change but everywhere in file
+    }
+
+    // generating code to insert in the html page, if some
+    private function getCodeToPaste() {
+
+        $code = '';
         $settings = $this->getSettings();
 
 
@@ -236,7 +268,7 @@ class JumpOut
                 }
 
                 if ($display_code) {
-                    echo $this->generateCode($item['id'], $item['uid']);
+                    $code .= $this->generateCode($item['id'], $item['uid']);
                 }
             }
         }
@@ -244,7 +276,6 @@ class JumpOut
 
         if (isset($settings['magic_begins']) && isset($settings['magic_begins']['enabled']) && TRUE === $settings['magic_begins']['enabled'])
         {
-            $code = '';
             if (isset($settings['magic_begins']['autofill']) && TRUE === $settings['magic_begins']['autofill']) {
                 $code .= '<script>';
             } else {
@@ -263,8 +294,9 @@ class JumpOut
 
             echo $code; //stripslashes($settings['magic_begins_code']);
         }
-    }
 
+        return $code;
+    }
 
     private function generateCode($id, $uid) {
 
@@ -344,7 +376,7 @@ class JumpOut
 
                     $session_token = $this->receiveSessionToken($_GET['access_token']);
 
-                    if ('FALSE' !== $session_token && '' != trim($session_token)) {
+                    if (FALSE !== $session_token && 'FALSE' !== $session_token && '' != trim($session_token)) {
                         $this->settings['session_token'] = $session_token;
                         $this->settings['token_is_working'] = TRUE;
                         $this->saveSettings();
@@ -537,6 +569,26 @@ class JumpOut
         //return $string; 
     }*/
 
+    // loads web page content by any of available methods
+    private function loadWebContent($url) {
+        if ('1' == ini_get('allow_url_fopen')) {
+            return file_get_contents($url);
+        } elseif (function_exists('curl_version')) {
+            return $this->loadWebContentCurl($url);
+        } else {
+            return FALSE;
+        }
+    }
+
+    private function loadWebContentCurl($url) {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+        $data = curl_exec($ch);
+        curl_close($ch);
+        return $data;
+    }
 }
 
 
