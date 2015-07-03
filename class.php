@@ -33,7 +33,7 @@ class JumpOut
     private 
         $settings, $settings_default, 
         $api_url = 'http://jumpout.makedreamprofits.ru/api/', 
-        $version = '3.0.8', 
+        $version = '3.0.9', 
         $popupfiles_domain = 'popupfiles.makedreamprofits.ru';
 
     function JumpOut()
@@ -116,7 +116,14 @@ class JumpOut
 			}
 		}
 
-		if (function_exists('add_options_page') && $addfoot_is_admin) {
+
+        if (function_exists('add_menu_page')) {
+
+            $icon_url = (function_exists('plugins_url')) ? plugins_url('jumpout.svg', __FILE__) : '/wp-content/plugins/jumpout/jumpout.svg';
+
+            add_menu_page(__("JumpOut"), __("JumpOut"), 10, 'jumpout', array(&$this, 'pages'), $icon_url, 81.18);
+
+        } elseif (function_exists('add_options_page') && $addfoot_is_admin) {
 
 			add_options_page(__("JumpOut"), __("JumpOut"), 9, 'jumpout', array(&$this, 'pages'));        
 
@@ -172,7 +179,7 @@ class JumpOut
                     // adding all popups in group var in popups array
                     foreach ($groups as $group) {
                         // collecting work_on_page from every popup in the group
-                        foreach ($group['popups'] as $popup) {print_r($group['popups']);
+                        foreach ($group['popups'] as $popup) {//print_r($group['popups']);
                             $group['work_on_page'][] = trim($popup['work_on_page']);
                         }
                         $group['work_on_page'] = array_unique($group['work_on_page']);
@@ -254,7 +261,11 @@ class JumpOut
                 $display_code = FALSE;
 
                 if (!is_array($item['work_on_page'])) {
-                    $item['work_on_page'] = array($item['work_on_page']);
+                    if (FALSE === strpos($item['work_on_page'], ',')) {
+                        $item['work_on_page'] = array($item['work_on_page']);
+                    } else {
+                        $item['work_on_page'] = explode(',', $item['work_on_page']);
+                    }
                 }
 
                 // если есть хотя бы один "работать на всех страницах"
