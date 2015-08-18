@@ -121,7 +121,7 @@ class JumpOut
 
             $icon_url = (function_exists('plugins_url')) ? plugins_url('jumpout.svg', __FILE__) : '/wp-content/plugins/jumpout/jumpout.svg';
 
-            add_menu_page(__("JumpOut"), __("JumpOut"), 10, 'jumpout', array(&$this, 'pages'), $icon_url, 81.18);
+            add_menu_page(__("JumpOut"), __("JumpOut"), 10, 'jumpout', array(&$this, 'pages'), $icon_url, '81.181');
 
         } elseif (function_exists('add_options_page') && $addfoot_is_admin) {
 
