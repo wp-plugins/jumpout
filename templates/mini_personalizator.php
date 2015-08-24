@@ -10,7 +10,7 @@
 }
 </style>
 
-<form action="?page=jumpout&action=magic_begins&noheader=true" method="POST" class="">
+<form action="?page=jumpout&action=mini_personalizator" method="POST" class="">
     <p>
         <?php _e('Описание этого скрипта, вы можете найти по
         <a href="http://jumpout.makedreamprofits.ru/bonuses/" target="_blank">этой ссылке</a>.
