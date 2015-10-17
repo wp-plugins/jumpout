@@ -27,6 +27,8 @@ define('JUMPOUT_PATH', WP_CONTENT_DIR  . DIRECTORY_SEPARATOR . 'plugins' . DIREC
 define('JUMPOUT_TEMPLATE_PATH', JUMPOUT_PATH . 'templates' . DIRECTORY_SEPARATOR);
 //$addfoot_url = WP_CONTENT_URL . '/plugins/' . plugin_basename(dirname(__FILE__));
 
+// Localization files
+load_plugin_textdomain('jumpout', FALSE, dirname( plugin_basename( __FILE__ ) ) . '/languages/');
 
 include_once 'class.php';
 
