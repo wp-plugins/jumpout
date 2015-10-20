@@ -2,8 +2,8 @@
 Contributors: EugeneBos
 Tags: popup, jumpout
 Requires at least: 2.5.0
-Tested up to: 4.2
-Stable tag: 3.0.9
+Tested up to: 4.3.1
+Stable tag: 3.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -34,6 +34,8 @@ No, only who bought JumpOut popups.
 1. Список попапов, доступных для установки. Просто нажмите "Активировать" и он установится на сайт:)
 
 == Changelog ==
+= 3.1.0 =
+* Исправлена и доработана поддержка английского языка. Плагин автоматически переключится на него, если у вас англоязычная админка
 = 3.0.9 =
 * Исправлена поддержка работы попапа на нескольких заданных страницах(был баг)
 * Ссылка на плагин вынесена в основное меню + добавлена иконка

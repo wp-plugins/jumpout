@@ -31,18 +31,25 @@ function jumpout_run($content) {
 class JumpOut
 {
     private 
-        $settings, $settings_default, 
-        $api_url = 'http://jumpout.makedreamprofits.ru/api/', 
-        $version = '3.0.9', 
+        $settings, $settings_default,
+        $jo_url = 'http://jumpout.makedreamprofits.ru/', 
+        $version = '3.1.0', 
         $popupfiles_domain = 'popupfiles.makedreamprofits.ru';
 
     function JumpOut()
     {
+        if ('en_US' == get_locale()) {
+            $this->jo_url = 'http://jumpout.makedreamprofits.com/';
+            $this->popupfiles_domain = 'popupfiles.makedreamprofits.com';
+        }
+
         // for the localhost
         if (FALSE !== strpos($_SERVER['SERVER_NAME'], 'makedreamprofits.my')) {
-            $this->api_url = 'http://service-jumpout.my/api/';
+            $this->jo_url = 'http://service-jumpout.my/';
             $this->popupfiles_domain = 'popupfiles.my';
         }
+
+        $this->api_url = $this->jo_url . 'api/';
 
         $this->settings_default = array(
             'session_token' => NULL,
@@ -554,7 +561,7 @@ class JumpOut
                     $this->redirect('list');
                 }
 
-                $this->pageRender('МиниПерсонализатор', 'mini_personalizator', $settings);
+                $this->pageRender(__('МиниПерсонализатор', 'jumpout'), 'mini_personalizator', $settings);
             break;
 
     	}
@@ -563,6 +570,8 @@ class JumpOut
     // Собирает конечную страницу
     function pageRender($caption, $file_name, $data = array()) {
     	//echo SOCIALLOCKER_TEMPLATE_PATH . $file_name . '.php'; exit();
+        $jo_url = $this->jo_url;
+        $api_url = $this->api_url;
 
         $page_file = JUMPOUT_TEMPLATE_PATH . $file_name . '.php';
     	include JUMPOUT_TEMPLATE_PATH . 'main_teamplate.php';

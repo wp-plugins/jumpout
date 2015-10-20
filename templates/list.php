@@ -52,14 +52,14 @@
 
                     <?php if (isset($item['popups'])): ?>
                         <span class="group-type">
-                            (<?php echo ('split-test' == $item['type']) ? 'сплит-тест' : 'серия попапов' ?>)
+                            (<?php echo ('split-test' == $item['type']) ? __('сплит-тест', 'jumpout') : __('серия попапов', 'jumpout') ?>)
                         </span>
                     <?php endif ?>
                 </strong>
 
                 <?php if (isset($item['popups'])): ?>
                     <div style="margin-bottom: 7px">
-                        Попапы:
+                        <?php _e('Попапы')?>:
                         <?php foreach ($item['popups'] as $key => $popup): ?>
 
                             <?php echo ((0 == $key) ? '' : ', ') . $popup['name']; ?>
@@ -117,7 +117,7 @@
             Чтобы это сделать, просто нажмите на кнопку ниже:', 'jumpout') ?>
             <br /><br />
 
-            <a class="button button-primary button-hero load-customize" href="http://jumpout.makedreamprofits.ru/api/allow_access/?back_url=http://<?=$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']?>">
+            <a class="button button-primary button-hero load-customize" href="<?php echo $api_url?>allow_access/?back_url=http://<?=$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']?>">
                 <?php _e('Начать использование!', 'jumpout') ?>
             </a>
         </div>

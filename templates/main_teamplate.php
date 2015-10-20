@@ -2,14 +2,14 @@
 	<div class="top_plugin_menu">
 		<div style="float: right; margin-top: 15px;">
 			<?php //=$this->settings['session_token']?>
-			<a href="http://makedreamprofits.ru/support/" target="_blank" class=""><?php _e('Техподдержка', 'jumpout') ?></a>
+			<a href="<?php _e('http://makedreamprofits.ru/support/', 'jumpout') ?>" target="_blank" class=""><?php _e('Техподдержка', 'jumpout') ?></a>
 		</div>
 
 		<h2>
 			<?php if ('list' != @$_GET['action']) :?><a href="?page=jumpout"><?php endif ?>JumpOut<?php if ('list' != @$_GET['action']) :?></a><?php endif ?>
 
 			<?php echo ('' !== trim($caption)) ? ' — ' . $caption : ''; ?> 
-			<a href="http://jumpout.makedreamprofits.ru/#add_new" target="_blank" class="add-new-h2"><?php _e('Новый попап', 'jumpout') ?></a>
+			<a href="<?php echo $jo_url?>#add_new" target="_blank" class="add-new-h2"><?php _e('Новый попап', 'jumpout') ?></a>
 			<a href="?page=jumpout&action=sync" class="sync add-new-h2">
 				<!-- 3  -->
 				  <svg style="margin-bottom: -4px" version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
