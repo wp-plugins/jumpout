@@ -117,7 +117,7 @@
             Чтобы это сделать, просто нажмите на кнопку ниже:', 'jumpout') ?>
             <br /><br />
 
-            <a class="button button-primary button-hero load-customize" href="<?php echo $api_url?>allow_access/?back_url=http://<?=$_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']?>">
+            <a class="button button-primary button-hero load-customize" href="<?php echo $api_url?>allow_access/?back_url=http://<?php echo $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']?>">
                 <?php _e('Начать использование!', 'jumpout') ?>
             </a>
         </div>
